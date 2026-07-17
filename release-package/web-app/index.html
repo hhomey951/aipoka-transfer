@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#EA2B1F" />
+<title>Aipoka Transfer</title>
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icon-192.png" />
+<link rel="apple-touch-icon" href="icon-512.png" />
+<style>
+  :root {
+    color-scheme: light dark;
+    --accent: #EA2B1F;
+    --accent-soft: #FCE0DD;
+    --good: #A1E887;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --accent: #FF6357; --accent-soft: #3A1512; }
+  }
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto; padding: 1.5rem; }
+  h1 { font-size: 1.3rem; }
+  label { display: block; margin-top: 1rem; font-weight: 600; }
+  input[type="text"] { width: 100%; padding: 0.6rem; font-size: 1rem; box-sizing: border-box; }
+  button {
+    margin-top: 1rem; padding: 0.7rem 1.2rem; font-size: 1rem; cursor: pointer;
+    background: var(--accent); color: #fff; border: none; border-radius: 8px; font-weight: 600;
+  }
+  #pairSection, #uploadSection { border: 1px solid var(--accent-soft); border-radius: 8px; padding: 1rem; margin-top: 1rem; }
+  #log { margin-top: 1rem; font-size: 0.85rem; white-space: pre-wrap; }
+  .ok { color: #2a2; }
+  .err { color: #d33; }
+  #pairedInfo { font-size: 0.9rem; opacity: 0.8; }
+</style>
+</head>
+<body>
+<h1>Aipoka Photo Transfer</h1>
+
+<div id="pairSection">
+  <div id="pairedInfo"></div>
+  <label for="serverUrl">PC server address</label>
+  <input type="text" id="serverUrl" placeholder="https://192.168.0.102:8787" />
+  <div class="hint">First time: open this address directly in a new browser tab and click through
+  the "not private" warning (it's the PC's self-signed cert) — otherwise pairing will silently fail.</div>
+
+  <label for="pinInput">Pairing PIN (shown in PC server terminal)</label>
+  <input type="text" id="pinInput" placeholder="6-digit PIN" inputmode="numeric" />
+
+  <button id="pairBtn">Pair with PC</button>
+</div>
+
+<div id="uploadSection" style="display:none">
+  <label for="fileInput">Select photos to send</label>
+  <input type="file" id="fileInput" accept="image/*" multiple />
+  <button id="uploadBtn">Send to PC</button>
+  <button id="forgetBtn" style="background:none;border:1px solid #d33;color:#d33">Forget pairing</button>
+</div>
+
+<div id="log"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

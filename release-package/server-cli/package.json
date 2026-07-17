@@ -1,0 +1,18 @@
+{
+  "name": "aipoka-server",
+  "version": "1.0.0",
+  "description": "PC-side server for aipoka photo auto-transfer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bonjour-service": "^1.2.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.6.0",
+    "multer": "^2.2.0",
+    "qrcode": "^1.5.4",
+    "selfsigned": "^5.5.0"
+  }
+}

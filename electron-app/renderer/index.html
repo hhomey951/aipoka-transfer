@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Aipoka Transfer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbarIcon">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+      <path d="M4 7.5C4 6.67 4.67 6 5.5 6h3l1-1.5h5L15.5 6h3c.83 0 1.5.67 1.5 1.5v9c0 .83-.67 1.5-1.5 1.5h-13A1.5 1.5 0 0 1 4 16.5v-9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+  </div>
+  <h1>Aipoka Photo Transfer</h1>
+</header>
+
+<div class="card">
+  <div class="cardHead">
+    <div class="iconChip">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+        <path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M4 8.5 12 13l8-4.5M12 13v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="label">Save photos to</div>
+  </div>
+  <div class="row">
+    <input type="text" id="downloadPath" readonly />
+    <button id="browseBtn">Browse…</button>
+  </div>
+  <div class="hint" id="todayFolderHint"></div>
+</div>
+
+<div class="card">
+  <div class="cardHead">
+    <div class="iconChip">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+        <rect x="4" y="3" width="16" height="18" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M9 7h6M9 11h6M9 15h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="label">Server</div>
+  </div>
+  <div class="serverInfo">
+    <div class="infoRow"><span class="infoKey">Address</span><span id="serverAddress">-</span></div>
+    <div class="infoRow"><span class="infoKey">Device name</span><span id="deviceName">-</span></div>
+    <div class="infoRow"><span class="infoKey">TLS fingerprint</span><span id="tlsFingerprint">-</span></div>
+  </div>
+  <div class="pinBlock">
+    <div class="pinLabel">Pairing PIN</div>
+    <div class="pin" id="pin">------</div>
+    <div class="hint" id="pinExpiry"></div>
+    <img id="pairingQr" class="pairingQr" alt="Scan to pair" hidden />
+  </div>
+</div>
+
+<div class="card">
+  <div class="cardHead">
+    <div class="iconChip">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+        <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="17.5" cy="8.5" r="2.2" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M15 19c.2-2.2 1.8-3.8 3.7-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="label">Paired phones</div>
+  </div>
+  <div id="deviceList" class="deviceList">
+    <div class="empty">No devices paired yet.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cardHead">
+    <div class="iconChip">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+        <path d="M4 16.5V8.7c0-.66.54-1.2 1.2-1.2h2.4l1.4-1.8h5.9l1.4 1.8h2.4c.66 0 1.2.54 1.2 1.2v7.8c0 .66-.54 1.2-1.2 1.2H5.2A1.2 1.2 0 0 1 4 16.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="label">Recently received</div>
+  </div>
+  <div id="uploadList" class="uploadList">
+    <div class="empty">No photos received yet.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="cardHead">
+    <div class="iconChip">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+        <path d="M12 4.5 4.5 8v5c0 4 3.2 6.6 7.5 8 4.3-1.4 7.5-4 7.5-8V8L12 4.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="m9.2 12.2 1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="label">Signups</div>
+  </div>
+  <div id="registrationList" class="registrationList">
+    <div class="empty">No installs yet.</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<resources>
+    <!-- Compose draws all screens; this theme only sets the window chrome
+         (status bar, default background) shown briefly before Compose takes over. -->
+    <style name="Theme.Aipoka" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

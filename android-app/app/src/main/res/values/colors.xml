@@ -1,0 +1,16 @@
+<resources>
+    <color name="primary">#6366F1</color>
+    <color name="primary_dark">#A1E887</color>
+    <color name="primary_light">#E0E7FF</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#0F172A</color>
+    <color name="on_surface_muted">#64748B</color>
+
+    <color name="online">#10B981</color>
+    <color name="offline">#94A3B8</color>
+    <color name="danger">#EF4444</color>
+    <color name="border">#E2E8F0</color>
+</resources>
