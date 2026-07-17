@@ -1,0 +1,35 @@
+# Dependencies / build output
+node_modules/
+electron-app/dist/
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+
+# Secrets — never commit
+android-app/keystore.properties
+*.keystore
+*.jks
+
+# Runtime data: TLS private keys, paired-device tokens, logs (personal, machine-local)
+server/data/
+**/paired-devices.json
+**/upload-log.json
+**/registrations.json
+*.log
+
+# Release binaries: distributed via GitHub Releases, not the repo
+release-package/windows/*.exe
+release-package/android/*.apk
+release-package/playstore/*.aab
+release-package/server-cli/node_modules/
+
+# OS noise
+Thumbs.db
+.DS_Store
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Android app source kept private (Play Store distribution only)
+android-app/

@@ -1,0 +1,263 @@
+:root {
+  color-scheme: light dark;
+
+  --page: oklch(0.985 0.004 250);
+  --card: oklch(1 0 0);
+  --ink: oklch(0.22 0.02 250);
+  --sub: oklch(0.52 0.02 250);
+  --border: oklch(0.9 0.008 250);
+  --accent: #EA2B1F;
+  --accent-soft: #FCE0DD;
+  --good: #A1E887;
+  --danger: oklch(0.6 0.18 25);
+  --row-border: oklch(0.94 0.006 250);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: oklch(0.2 0.012 250);
+    --card: oklch(0.26 0.012 250);
+    --ink: oklch(0.95 0.004 250);
+    --sub: oklch(0.68 0.012 250);
+    --border: oklch(0.34 0.012 250);
+    --accent: #FF6357;
+    --accent-soft: #3A1512;
+    --good: #A1E887;
+    --danger: oklch(0.68 0.16 25);
+    --row-border: oklch(0.32 0.012 250);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 1.25rem 1.25rem 2rem;
+  background: var(--page);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.1rem 0 1.15rem;
+}
+
+.topbarIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.iconChip {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--page);
+  color: var(--ink);
+  min-width: 0;
+}
+
+button {
+  padding: 0.6rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: oklch(1 0 0);
+  cursor: pointer;
+  font-size: 0.83rem;
+  font-family: inherit;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+button:hover { opacity: 0.88; }
+
+.hint {
+  margin-top: 0.5rem;
+  font-size: 0.74rem;
+  color: var(--sub);
+}
+
+.serverInfo {
+  font-size: 0.83rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.infoKey { color: var(--sub); }
+
+.infoRow span:last-child {
+  font-weight: 500;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.pinBlock {
+  margin-top: 0.9rem;
+  text-align: center;
+  background: var(--accent-soft);
+  border-radius: 14px;
+  padding: 0.85rem;
+}
+
+.pinLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.pin {
+  font-size: 2.15rem;
+  font-weight: 800;
+  letter-spacing: 0.28rem;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  color: var(--ink);
+}
+
+.pairingQr {
+  display: block;
+  width: 140px;
+  height: 140px;
+  margin: 0.7rem auto 0.1rem;
+  border-radius: 10px;
+  background: oklch(1 0 0);
+  padding: 8px;
+  border: 1.5px solid var(--border);
+}
+
+.deviceList, .uploadList, .registrationList { font-size: 0.84rem; }
+
+.deviceRow, .uploadRow, .registrationRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--row-border);
+}
+
+.registrationRow { align-items: flex-start; }
+
+.deviceRow:last-child, .uploadRow:last-child, .registrationRow:last-child { border-bottom: none; }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sub);
+  flex-shrink: 0;
+}
+
+.dot.online { background: var(--good); }
+
+.deviceName, .uploadName {
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uploadFrom {
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.lastSeen, .uploadTime, .registrationTime { color: var(--sub); font-size: 0.76rem; white-space: nowrap; }
+
+.registrationMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.registrationName {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.registrationMeta {
+  color: var(--sub);
+  font-size: 0.76rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty { color: var(--sub); font-size: 0.84rem; }

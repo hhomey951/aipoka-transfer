@@ -1,0 +1,8 @@
+{
+  "port": 8787,
+  "downloadPath": "",
+  "pinTtlMinutes": 10,
+  "deviceName": "MY-PC",
+  "maxPairedDevices": 1,
+  "discoverable": false
+}
