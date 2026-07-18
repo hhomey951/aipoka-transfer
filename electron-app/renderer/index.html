@@ -47,16 +47,22 @@
     <div class="label">Server</div>
   </div>
   <div class="serverInfo">
-    <div class="infoRow"><span class="infoKey">Address</span><span id="serverAddress">-</span></div>
     <div class="infoRow"><span class="infoKey">Device name</span><span id="deviceName">-</span></div>
-    <div class="infoRow"><span class="infoKey">TLS fingerprint</span><span id="tlsFingerprint">-</span></div>
   </div>
-  <div class="pinBlock">
-    <div class="pinLabel">Pairing PIN</div>
-    <div class="pin" id="pin">------</div>
-    <div class="hint" id="pinExpiry"></div>
-    <img id="pairingQr" class="pairingQr" alt="Scan to pair" hidden />
+  <button id="togglePairBtn" class="pairToggleBtn">Pair a new device</button>
+  <div id="pairingBlock" hidden>
+    <div class="serverInfo" style="margin-top: 0.7rem;">
+      <div class="infoRow"><span class="infoKey">Address</span><span id="serverAddress">-</span></div>
+      <div class="infoRow"><span class="infoKey">TLS fingerprint</span><span id="tlsFingerprint">-</span></div>
+    </div>
+    <div class="pinBlock">
+      <div class="pinLabel">Pairing PIN</div>
+      <div class="pin" id="pin">------</div>
+      <div class="hint" id="pinExpiry"></div>
+      <img id="pairingQr" class="pairingQr" alt="Scan to pair" hidden />
+    </div>
   </div>
+  <div id="pairingFullMsg" class="hint" hidden></div>
 </div>
 
 <div class="card">
@@ -85,6 +91,7 @@
       </svg>
     </div>
     <div class="label">Recently received</div>
+    <button id="clearUploadsBtn" class="clearBtn">Clear</button>
   </div>
   <div id="uploadList" class="uploadList">
     <div class="empty">No photos received yet.</div>
@@ -100,6 +107,7 @@
       </svg>
     </div>
     <div class="label">Signups</div>
+    <button id="clearRegistrationsBtn" class="clearBtn">Clear</button>
   </div>
   <div id="registrationList" class="registrationList">
     <div class="empty">No installs yet.</div>

@@ -29,7 +29,7 @@ const DEFAULT_SETTINGS = {
   downloadPath: path.join(app.getPath('pictures'), 'AipokaTransfer'),
   pinTtlMinutes: 10,
   deviceName: os.hostname(),
-  maxPairedDevices: 1,
+  maxPairedDevices: 3,
   discoverable: false
 };
 
@@ -83,14 +83,24 @@ function lanOnlyCors() {
   });
 }
 
+// Virtual adapters (VPN clients, Hyper-V, VMware/VirtualBox, Docker) commonly
+// enumerate before the real WiFi/Ethernet adapter in os.networkInterfaces(),
+// and their address is unreachable from the phone's LAN. Skip known virtual
+// adapter names and prefer the first plain private-LAN address instead.
+const VIRTUAL_ADAPTER_NAME = /\b(vethernet|virtualbox|vmware|hyper-v|docker|tailscale|zerotier|wsl|loopback|tap-|tun|vpn)\b/i;
+
 function localIp() {
   const nets = os.networkInterfaces();
+  const candidates = [];
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) return net.address;
+      if (net.family === 'IPv4' && !net.internal) {
+        candidates.push({ name, address: net.address });
+      }
     }
   }
-  return '127.0.0.1';
+  const real = candidates.find(c => !VIRTUAL_ADAPTER_NAME.test(c.name));
+  return (real || candidates[0] || { address: '127.0.0.1' }).address;
 }
 
 async function startServer() {
@@ -176,10 +186,12 @@ ipcMain.handle('get-status', async () => {
   const { pin, expiresAt } = deviceStore.getPin();
   const devices = deviceStore.listDevices();
   const deviceList = Object.entries(devices).map(([token, info]) => ({
+    token,
     deviceName: info.deviceName,
     lastSeen: info.lastSeen,
     pairedAt: info.pairedAt
   }));
+  const maxDevices = getMaxDevices();
 
   const serverAddress = `https://${localIp()}:${settings.port}`;
 
@@ -203,16 +215,29 @@ ipcMain.handle('get-status', async () => {
     todayFolder: getDownloadPath(),
     tlsFingerprint,
     devices: deviceList,
+    maxDevices,
     pairingQrDataUrl
   };
+});
+
+ipcMain.handle('remove-device', (event, token) => {
+  return deviceStore.revokeToken(token);
 });
 
 ipcMain.handle('get-uploads', () => {
   return uploadLog.listEntries();
 });
 
+ipcMain.handle('clear-uploads', () => {
+  uploadLog.clearEntries();
+});
+
 ipcMain.handle('get-registrations', () => {
   return registrationLog.listEntries();
+});
+
+ipcMain.handle('clear-registrations', () => {
+  registrationLog.clearEntries();
 });
 
 app.whenReady().then(() => {

@@ -32,7 +32,7 @@ function buildPairRouter(getMaxDevices) {
     const token = deviceStore.issueToken(deviceName, getMaxDevices());
     if (!token) {
       return res.status(403).json({
-        error: 'This receiver is already paired with another device. Remove the existing pairing on the PC first.'
+        error: 'Device limit reached on this receiver. Remove a paired device on the PC first.'
       });
     }
     res.json({ token });

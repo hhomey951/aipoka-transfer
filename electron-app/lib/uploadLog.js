@@ -39,4 +39,8 @@ function listEntries() {
   return loadEntries();
 }
 
-module.exports = { setDataFile, record, listEntries };
+function clearEntries() {
+  saveEntries([]);
+}
+
+module.exports = { setDataFile, record, listEntries, clearEntries };

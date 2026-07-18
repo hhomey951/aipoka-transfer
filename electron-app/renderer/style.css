@@ -261,3 +261,31 @@ button:hover { opacity: 0.88; }
 }
 
 .empty { color: var(--sub); font-size: 0.84rem; }
+
+.pairToggleBtn {
+  width: 100%;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pairToggleBtn:hover { opacity: 0.85; }
+
+.removeBtn {
+  background: transparent;
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.74rem;
+  flex-shrink: 0;
+}
+
+.clearBtn {
+  margin-left: auto;
+  background: transparent;
+  color: var(--sub);
+  border: 1.5px solid var(--border);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.72rem;
+}
+
+.clearBtn:hover { opacity: 1; color: var(--danger); border-color: var(--danger); }

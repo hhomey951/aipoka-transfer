@@ -53,14 +53,24 @@ function lanOnlyCors() {
   });
 }
 
+// Virtual adapters (VPN clients, Hyper-V, VMware/VirtualBox, Docker) commonly
+// enumerate before the real WiFi/Ethernet adapter in os.networkInterfaces(),
+// and their address is unreachable from the phone's LAN. Skip known virtual
+// adapter names and prefer the first plain private-LAN address instead.
+const VIRTUAL_ADAPTER_NAME = /\b(vethernet|virtualbox|vmware|hyper-v|docker|tailscale|zerotier|wsl|loopback|tap-|tun|vpn)\b/i;
+
 function localIp() {
   const nets = os.networkInterfaces();
+  const candidates = [];
   for (const name of Object.keys(nets)) {
     for (const net of nets[name]) {
-      if (net.family === 'IPv4' && !net.internal) return net.address;
+      if (net.family === 'IPv4' && !net.internal) {
+        candidates.push({ name, address: net.address });
+      }
     }
   }
-  return '127.0.0.1';
+  const real = candidates.find(c => !VIRTUAL_ADAPTER_NAME.test(c.name));
+  return (real || candidates[0] || { address: '127.0.0.1' }).address;
 }
 
 async function main() {

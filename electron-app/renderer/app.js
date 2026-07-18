@@ -10,6 +10,18 @@ const pairingQrEl = document.getElementById('pairingQr');
 const deviceListEl = document.getElementById('deviceList');
 const uploadListEl = document.getElementById('uploadList');
 const registrationListEl = document.getElementById('registrationList');
+const togglePairBtn = document.getElementById('togglePairBtn');
+const pairingBlockEl = document.getElementById('pairingBlock');
+const pairingFullMsgEl = document.getElementById('pairingFullMsg');
+const clearUploadsBtn = document.getElementById('clearUploadsBtn');
+const clearRegistrationsBtn = document.getElementById('clearRegistrationsBtn');
+
+// Pairing info (IP/PIN/QR) is only shown while the user has explicitly asked
+// to pair a new device — keeping it off-screen otherwise avoids exposing the
+// PC's LAN address to anyone glancing at the window. Auto-hides again the
+// moment a new device shows up in the paired list.
+let pairingRevealed = false;
+let lastDeviceCount = null;
 
 // Device names, filenames, and registration name/email all originate from the
 // phone (and /register is unauthenticated), so treat them as untrusted before
@@ -57,7 +69,25 @@ function render(status) {
     pairingQrEl.hidden = true;
   }
 
-  if (!status.devices || status.devices.length === 0) {
+  const deviceCount = status.devices ? status.devices.length : 0;
+  const full = deviceCount >= status.maxDevices;
+
+  // A new device appeared while the pairing panel was open — job done, hide it.
+  if (pairingRevealed && lastDeviceCount !== null && deviceCount > lastDeviceCount) {
+    pairingRevealed = false;
+  }
+  lastDeviceCount = deviceCount;
+
+  togglePairBtn.hidden = full;
+  pairingFullMsgEl.hidden = !full;
+  if (full) {
+    pairingFullMsgEl.textContent = `Device limit reached (${deviceCount}/${status.maxDevices}). Remove a device below to pair a new one.`;
+    pairingRevealed = false;
+  }
+  pairingBlockEl.hidden = !pairingRevealed;
+  togglePairBtn.textContent = pairingRevealed ? 'Hide pairing code' : 'Pair a new device';
+
+  if (deviceCount === 0) {
     deviceListEl.innerHTML = '<div class="empty">No devices paired yet.</div>';
     return;
   }
@@ -70,10 +100,20 @@ function render(status) {
           <div class="dot ${online ? 'online' : ''}"></div>
           <div class="deviceName">${esc(d.deviceName)}</div>
           <div class="lastSeen">${relativeTime(d.lastSeen)}</div>
+          <button class="removeBtn" data-token="${esc(d.token)}">Remove</button>
         </div>
       `;
     })
     .join('');
+
+  deviceListEl.querySelectorAll('.removeBtn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const name = btn.parentElement.querySelector('.deviceName').textContent;
+      if (!confirm(`Remove "${name}"? It will need to pair again to send photos.`)) return;
+      await window.aipoka.removeDevice(btn.dataset.token);
+      refresh();
+    });
+  });
 }
 
 function renderUploads(uploads) {
@@ -125,6 +165,24 @@ async function refresh() {
 
 browseBtn.addEventListener('click', async () => {
   await window.aipoka.chooseFolder();
+  refresh();
+});
+
+togglePairBtn.addEventListener('click', () => {
+  pairingRevealed = !pairingRevealed;
+  pairingBlockEl.hidden = !pairingRevealed;
+  togglePairBtn.textContent = pairingRevealed ? 'Hide pairing code' : 'Pair a new device';
+});
+
+clearUploadsBtn.addEventListener('click', async () => {
+  if (!confirm('Clear the received-photos history? This only clears the list, not the actual photo files.')) return;
+  await window.aipoka.clearUploads();
+  refresh();
+});
+
+clearRegistrationsBtn.addEventListener('click', async () => {
+  if (!confirm('Clear the signups history?')) return;
+  await window.aipoka.clearRegistrations();
   refresh();
 });
 

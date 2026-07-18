@@ -4,5 +4,8 @@ contextBridge.exposeInMainWorld('aipoka', {
   chooseFolder: () => ipcRenderer.invoke('choose-folder'),
   getStatus: () => ipcRenderer.invoke('get-status'),
   getUploads: () => ipcRenderer.invoke('get-uploads'),
-  getRegistrations: () => ipcRenderer.invoke('get-registrations')
+  clearUploads: () => ipcRenderer.invoke('clear-uploads'),
+  getRegistrations: () => ipcRenderer.invoke('get-registrations'),
+  clearRegistrations: () => ipcRenderer.invoke('clear-registrations'),
+  removeDevice: (token) => ipcRenderer.invoke('remove-device', token)
 });
